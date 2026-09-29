@@ -1,8 +1,10 @@
 package com.example.studyfocus
 
+import android.Manifest
 import android.app.AppOpsManager
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.net.Uri
 
@@ -12,8 +14,11 @@ import android.os.Process
 import android.provider.Settings
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.enableEdgeToEdge
+import androidx.core.content.ContextCompat
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -126,6 +131,17 @@ fun hasOverlayPermission(context: Context): Boolean {
     return Settings.canDrawOverlays(context)
 }
 
+fun hasNotificationPermission(context: Context): Boolean {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        ContextCompat.checkSelfPermission(
+            context,
+            Manifest.permission.POST_NOTIFICATIONS
+        ) == PackageManager.PERMISSION_GRANTED
+    } else {
+        true
+    }
+}
+
 fun formatDuration(totalSeconds: Long): String {
     val hours = totalSeconds / 3600
     val minutes = (totalSeconds % 3600) / 60
@@ -217,6 +233,13 @@ fun TimerScreen(
 
     var hasUsagePermission by remember { mutableStateOf(hasUsageStatsPermission(context)) }
     var hasDrawOverlayPermission by remember { mutableStateOf(hasOverlayPermission(context)) }
+    var hasNotifPermission by remember { mutableStateOf(hasNotificationPermission(context)) }
+
+    val notifPermissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        hasNotifPermission = isGranted
+    }
 
     var isRunning by remember { mutableStateOf(timerManager.isRunning) }
     var elapsedSeconds by remember { mutableLongStateOf(timerManager.getElapsedSeconds()) }
@@ -233,6 +256,7 @@ fun TimerScreen(
             if (event == Lifecycle.Event.ON_RESUME) {
                 hasUsagePermission = hasUsageStatsPermission(context)
                 hasDrawOverlayPermission = hasOverlayPermission(context)
+                hasNotifPermission = hasNotificationPermission(context)
 
                 // 오버레이에서 돌아오거나 앱 복귀 시 상태 복원
                 isRunning = timerManager.isRunning
@@ -313,6 +337,10 @@ fun TimerScreen(
     }
 
     fun startTimer() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !hasNotificationPermission(context)) {
+            notifPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        }
+
         timerManager.startTimer(targetMinutes)
         isRunning = true
         elapsedSeconds = 0L

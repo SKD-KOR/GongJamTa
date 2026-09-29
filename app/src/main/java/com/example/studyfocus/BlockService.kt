@@ -234,8 +234,10 @@ class BlockService : Service() {
             val channel = NotificationChannel(
                 channelId,
                 channelName,
-                NotificationManager.IMPORTANCE_LOW
-            )
+                NotificationManager.IMPORTANCE_HIGH
+            ).apply {
+                description = "공타잠 집중 모드 백그라운드 실행 알림"
+            }
             val manager = getSystemService(NotificationManager::class.java)
             manager.createNotificationChannel(channel)
         }
@@ -253,6 +255,7 @@ class BlockService : Service() {
             .setContentTitle("🔒 공타잠 집중 모드 실행 중")
             .setContentText("몰입 중입니다. 승인되지 않은 앱 사용이 제한됩니다.")
             .setSmallIcon(R.mipmap.ic_launcher)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setContentIntent(pendingIntent)
             .setOngoing(true)
             .build()
