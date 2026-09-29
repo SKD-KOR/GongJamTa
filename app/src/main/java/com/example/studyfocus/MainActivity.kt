@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.net.Uri
+
 import android.os.Build
 import android.os.Bundle
 import android.os.Process
@@ -347,7 +348,7 @@ fun TimerScreen(
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Study Focus",
+                    text = "공타잠",
                     style = MaterialTheme.typography.headlineLarge,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onBackground
