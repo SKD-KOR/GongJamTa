@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EE111827"
+    android:background="#F81A1918"
     android:gravity="center"
     android:orientation="vertical"
     android:padding="32dp">
@@ -10,39 +10,52 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="⚠️"
+        android:text="🔒"
         android:textSize="64sp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="집중 시간입니다!"
-        android:textColor="#FFFFFF"
+        android:layout_marginTop="20dp"
+        android:text="집중 모드 작동 중"
+        android:textColor="#FAF7F2"
         android:textSize="26sp"
         android:textStyle="bold" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="승인되지 않은 앱은 사용할 수 없습니다.\n목표를 위해 조금만 더 힘내세요!"
+        android:layout_marginTop="12dp"
+        android:text="현재 허용된 앱만 사용하실 수 있습니다.\n목표 달성을 위해 조금만 더 몰입해 보세요!"
         android:textAlignment="center"
-        android:textColor="#9CA3AF"
+        android:textColor="#A09D98"
         android:textSize="15sp" />
 
-    <Button
-        android:id="@+id/btnGoHome"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:backgroundTint="#4F46E5"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
-        android:paddingTop="12dp"
-        android:paddingBottom="12dp"
-        android:text="홈 화면으로 나가기"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp" />
+        android:layout_marginTop="36dp"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btnGoApp"
+            android:layout_width="240dp"
+            android:layout_height="52dp"
+            android:backgroundTint="#FF385C"
+            android:text="Study Focus 앱으로 돌아가기"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnGoHome"
+            android:layout_width="240dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="12dp"
+            android:backgroundTint="#2E2A27"
+            android:text="홈 화면으로 이동"
+            android:textColor="#ECE6E0"
+            android:textSize="15sp" />
+    </LinearLayout>
 
 </LinearLayout>
