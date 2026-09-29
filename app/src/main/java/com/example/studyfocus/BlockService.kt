@@ -228,7 +228,7 @@ class BlockService : Service() {
 
     private fun createNotification(): Notification {
         val channelId = "study_channel"
-        val channelName = "공부 집중 모드"
+        val channelName = "공타잠 집중 모드"
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
@@ -243,13 +243,15 @@ class BlockService : Service() {
         val pendingIntent = PendingIntent.getActivity(
             this,
             0,
-            Intent(this, MainActivity::class.java),
-            PendingIntent.FLAG_IMMUTABLE
+            Intent(this, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+            },
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
         return NotificationCompat.Builder(this, channelId)
-            .setContentTitle("🔒 집중 모드 실행 중")
-            .setContentText("허용되지 않은 앱 사용이 제한됩니다.")
+            .setContentTitle("🔒 공타잠 집중 모드 실행 중")
+            .setContentText("몰입 중입니다. 승인되지 않은 앱 사용이 제한됩니다.")
             .setSmallIcon(R.mipmap.ic_launcher)
             .setContentIntent(pendingIntent)
             .setOngoing(true)
