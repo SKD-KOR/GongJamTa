@@ -51,4 +51,6 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     debugImplementation(libs.androidx.compose.ui.tooling)
+    // Material 확장 아이콘 (재생, 일시정지, 통계, 차단 아이콘 등)
+    implementation("androidx.compose.material:material-icons-extended:1.7.8")
 }
